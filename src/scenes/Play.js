@@ -38,9 +38,10 @@ class Play extends Phaser.Scene {
          //spaceship aspects
 
          //add spaceships (x3)
-         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0,0);
+         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0,0);
          this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0);
-         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0)
+         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0);
+         this.ship04 = new SpecialSpaceship(this, game.config.width, borderUISize*2 + borderPadding*3, "spaceship", 0, 50).setOrigin(0,0);
 
          //animation configuration
 
@@ -68,36 +69,47 @@ class Play extends Phaser.Scene {
             fixedWidth: 100
          }  
          this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
-
+        //display highscore
+         this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
+         
          //gameplay aspects
 
          //GAME OVER flag
          this.gameOver = false;
          //60-second play clock
          scoreConfig.fixedWidth = 0;
-         this.clock = this.time.delayedCall(60000, () => {
+         this.clock = this.time.delayedCall(10000, () => {
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
             this.gameOver = true;
          }, null, this);
-
-
-         
     }
 
     update(){
         //object updates
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            playedOnce = true;
+            if(this.gameOver && this.p1Score >= highScore){
+                highScore = this.p1Score;
+                console.log("Highscore: ", highScore);
+                this.newHighScore.text = highScore; 
+            }
             this.scene.restart();
         }
+       
         if(!this.gameOver){
         this.starfield.tilePositionX -= 4;
         this.p1Rocket.update();
         this.ship01.update();
         this.ship02.update();
         this.ship03.update();
+        this.ship04.update();
         }
         //check collisions
+        if(this.checkCollision(this.p1Rocket, this.ship04)){
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
+        }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
