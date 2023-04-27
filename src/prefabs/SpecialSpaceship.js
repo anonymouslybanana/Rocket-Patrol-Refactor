@@ -4,6 +4,7 @@ class SpecialSpaceship extends Phaser.GameObjects.Sprite {
         scene.add.existing(this); //adding to exisiting scene
         this.points = pointValue;  //store pointValue
         this.moveSpeed = 5;        //pixels per frame
+        this.setScale(2);
     }
 
     update() {
