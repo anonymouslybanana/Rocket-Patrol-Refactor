@@ -4,9 +4,33 @@ class Play extends Phaser.Scene {
     }
     preload(){
         //load images/tile sprites
+
+        //rocket pngs
         this.load.image("rocket", "./assets/rocket.png");
-        this.load.image("spaceship", "./assets/spaceship.png");
+
+        //spaceship pngs
+        this.load.image("spaceship1", "./assets/spaceship1.png");
+        this.load.image("spaceship2", "./assets/spaceship2.png");
+        this.load.image("spaceship3", "./assets/spaceship3.png");
+        this.load.image("spaceship4", "./assets/spaceship4.png");
+
+        //special spaceship pngs
+        this.load.image("specialSpaceship1", "./assets/specialspaceship1.png");
+        this.load.image("specialSpaceship2", "./assets/specialspaceship2.png");
+        this.load.image("specialSpaceship3", "./assets/specialspaceship3.png");
+        this.load.image("specialSpaceship4", "./assets/specialspaceship4.png");
+        this.load.image("specialSpaceship5", "./assets/specialspaceship5.png");
+        this.load.image("specialSpaceship6", "./assets/specialspaceship6.png");
+        this.load.image("specialSpaceship7", "./assets/specialspaceship7.png");
+        this.load.image("specialSpaceship8", "./assets/specialspaceship8.png");
+        this.load.image("specialSpaceship9", "./assets/specialspaceship9.png");
+        this.load.image("specialSpaceship10", "./assets/specialspaceship10.png");
+        this.load.image("specialSpaceship11", "./assets/specialspaceship11.png");
+        this.load.image("specialSpaceship12", "./assets/specialspaceship12.png");
+
+        //starfield pngs
         this.load.image("starfield", "./assets/starfield.png");
+
         //load spritesheet
         this.load.spritesheet("explosion", "./assets/explosion.png", {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
     }
@@ -37,11 +61,49 @@ class Play extends Phaser.Scene {
 
          //spaceship aspects
 
+          //spaceship animation
+          this.anims.create({
+            key: 'zoom',
+            frames: [
+                { key: 'spaceship1' },
+                { key: 'spaceship2' },
+                { key: 'spaceship3' },
+                { key: 'spaceship4' }
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
+         //special spaceship animation
+         this.anims.create({
+            key: 'rainbow zoom',
+            frames: [
+                { key: 'specialSpaceship1' },
+                { key: 'specialSpaceship2' },
+                { key: 'specialSpaceship3' },
+                { key: 'specialSpaceship4' },
+                { key: 'specialSpaceship5' },
+                { key: 'specialSpaceship6' },
+                { key: 'specialSpaceship7' },
+                { key: 'specialSpaceship8' },
+                { key: 'specialSpaceship9' },
+                { key: 'specialSpaceship10' },
+                { key: 'specialSpaceship11' },
+                { key: 'specialSpaceship12' },
+            ],
+            frameRate: 8,
+            repeat: -1
+        });
+
+        //special spaceship animation
+
          //add spaceships (x3)
-         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0,0);
-         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0);
-         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0);
-         this.ship04 = new SpecialSpaceship(this, game.config.width, borderUISize*2 + borderPadding*3, "spaceship", 0, 50).setOrigin(0,0);
+         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0,0).play("zoom");
+         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0).play("zoom");
+         this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0).play("zoom");
+         this.ship04 = new SpecialSpaceship(this, game.config.width, borderUISize*2 + borderPadding*3, "specialSpaceship", 0, 50).setOrigin(0,0).play("rainbow zoom");
+         
+         //scaling spaceships
 
          //animation configuration
 
@@ -50,6 +112,24 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers("explosion", {start: 0, end: 9, first: 0}),
             frameRate: 30
          });
+
+         //adding spaceship movement animation from files, solution found at:
+         //https://stackoverflow.com/questions/53034421/using-multiple-animations-for-phaser-3-matter-body
+
+        /*this.anims.create({
+            key: "spaceshipMove",    
+            frames: [
+                {key: "spaceship", frame: "spaceship1.png"},
+                {key: "spaceship", frame: "spaceship2.png"},
+                {key: "spaceship", frame: "spaceship3.png"},
+                {key: "spaceship", frame: "spaceship4.png"},
+            ],
+            frameRate: 4,
+            repeat: -1
+            });*/
+
+        //this.ship01.anims.load("spaceshipMove");
+        //this.ship01.anims.play("spaceshipMove");
 
          //score aspects
 
