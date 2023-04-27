@@ -30,6 +30,7 @@ class Play extends Phaser.Scene {
 
         //starfield pngs
         this.load.image("starfield", "./assets/starfield.png");
+        this.load.image("starfieldparallax1", "./assets/starfieldparallax1.png")
 
         //overlay pngs
         this.load.image("overlay", "./assets/overlay.png")
@@ -44,6 +45,7 @@ class Play extends Phaser.Scene {
 
         //place tile sprite
         this.starfield = this.add.tileSprite(0, 0, 640, 480, "starfield").setOrigin(0,0);
+        this.starfieldparallax1 = this.add.tileSprite(0, 0, 640, 480, "starfieldparallax1").setOrigin(0,0);
         //place overlay temp
         this.overlay = this.add.tileSprite(0, 0, 640, 480, "overlay").setOrigin(0,0);
         // green UI background
@@ -111,24 +113,6 @@ class Play extends Phaser.Scene {
             frameRate: 30
          });
 
-         //adding spaceship movement animation from files, solution found at:
-         //https://stackoverflow.com/questions/53034421/using-multiple-animations-for-phaser-3-matter-body
-
-        /*this.anims.create({
-            key: "spaceshipMove",    
-            frames: [
-                {key: "spaceship", frame: "spaceship1.png"},
-                {key: "spaceship", frame: "spaceship2.png"},
-                {key: "spaceship", frame: "spaceship3.png"},
-                {key: "spaceship", frame: "spaceship4.png"},
-            ],
-            frameRate: 4,
-            repeat: -1
-            });*/
-
-        //this.ship01.anims.load("spaceshipMove");
-        //this.ship01.anims.play("spaceshipMove");
-
          //score aspects
 
          //initalize score
@@ -146,16 +130,29 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
          }  
+         //var timer = scene.time.delayedCall(5000, callback, args, scope); 
          this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
         //display highscore
          this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
+         scoreConfig.fixedWidth = 0;
          
          //gameplay aspects
 
          //GAME OVER flag
          this.gameOver = false;
          //60-second play clock
-         scoreConfig.fixedWidth = 0;
+         let timerConfig = {
+            fontFamily : "Courier",
+            fontSize: "28px",
+            backgroundColor: "#F3B141",
+            color: "#843605",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            fixedWidth: 100
+         } 
          this.clock = this.time.delayedCall(10000, () => {
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
@@ -177,6 +174,7 @@ class Play extends Phaser.Scene {
        
         if(!this.gameOver){
         this.starfield.tilePositionX -= 0.5;
+        this.starfieldparallax1.tilePositionX -= 0.75;
         this.p1Rocket.update();
         this.ship01.update();
         this.ship02.update();
