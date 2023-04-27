@@ -28,11 +28,11 @@ class Play extends Phaser.Scene {
         this.load.image("specialSpaceship11", "./assets/specialspaceship11.png");
         this.load.image("specialSpaceship12", "./assets/specialspaceship12.png");
 
-        //overlay png
-        this.load.image("overlay", "./assets/overlay.png")
-
         //starfield pngs
         this.load.image("starfield", "./assets/starfield.png");
+
+        //overlay pngs
+        this.load.image("overlay", "./assets/overlay.png")
 
         //load spritesheet
         this.load.spritesheet("explosion", "./assets/explosion.png", {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
@@ -43,7 +43,9 @@ class Play extends Phaser.Scene {
         //display aspects
 
         //place tile sprite
-        this.starfield = this.add.tileSprite(0, 0, 640, 480, 'starfield').setOrigin(0,0);
+        this.starfield = this.add.tileSprite(0, 0, 640, 480, "starfield").setOrigin(0,0);
+        //place overlay temp
+        this.overlay = this.add.tileSprite(0, 0, 640, 480, "overlay").setOrigin(0,0);
         // green UI background
         //this.add.rectangle(0, borderUISize + borderPadding, game.config.width, borderUISize * 2, 0x00FF00).setOrigin(0, 0);
         // white borders
@@ -51,7 +53,6 @@ class Play extends Phaser.Scene {
         this.add.rectangle(0, game.config.height - borderUISize, game.config.width, borderUISize, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(0, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);
         this.add.rectangle(game.config.width - borderUISize, 0, borderUISize, game.config.height, 0xFFFFFF).setOrigin(0, 0);*/
-        this.overlay = this.add.tileSprite(0, 0, 640, 480, "overlay").setOrigin(0,0).setScrollFactor(0,1)
 
         //rocket aspects
 
@@ -86,14 +87,7 @@ class Play extends Phaser.Scene {
                 { key: 'specialSpaceship2' },
                 { key: 'specialSpaceship3' },
                 { key: 'specialSpaceship4' },
-                { key: 'specialSpaceship5' },
-                { key: 'specialSpaceship6' },
-                { key: 'specialSpaceship7' },
-                { key: 'specialSpaceship8' },
-                { key: 'specialSpaceship9' },
-                { key: 'specialSpaceship10' },
-                { key: 'specialSpaceship11' },
-                { key: 'specialSpaceship12' },
+                
             ],
             frameRate: 8,
             repeat: -1
@@ -213,7 +207,7 @@ class Play extends Phaser.Scene {
 
     checkCollision(rocket,ship){
         //simple AABB checking
-        if(rocket.x < ship.x + ship.width*1.75 && rocket.x + rocket.width > ship.x && rocket.y < ship.y + ship.height*1.75 && rocket.height + rocket.y > ship.y) {
+        if(rocket.x < ship.x + ship.width * 2 && rocket.x + rocket.width > ship.x && rocket.y < ship.y + ship.height * 2 && rocket.height + rocket.y > ship.y) {
             return true;
         } else {
             return false;
@@ -230,7 +224,7 @@ class Play extends Phaser.Scene {
           ship.reset();                         // reset ship position
           ship.alpha = 1;                       // make ship visible again
           boom.destroy();                       // remove explosion sprite
-        }); 
+        });
         //score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = this.p1Score; 
