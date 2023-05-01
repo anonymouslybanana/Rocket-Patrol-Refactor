@@ -4,6 +4,11 @@ class Play extends Phaser.Scene {
     }
     preload(){
 
+        //loading music/sounds
+
+        //loading game music
+        this.load.audio("gameMusic", "./assets/IanFever&Almi-Autumn.mp3");
+        
         //load images/tile sprites
 
         //rocket pngs
@@ -62,8 +67,9 @@ class Play extends Phaser.Scene {
         //add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
          //define keys
-         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
+         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
          keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
          keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
          keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
@@ -96,15 +102,12 @@ class Play extends Phaser.Scene {
             repeat: -1
         });
 
-        //special spaceship animation
-
          //add spaceships
          this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0,0).play("zoom");
          this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0).play("zoom");
          this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0).play("zoom");
          this.ship04 = new SpecialSpaceship(this, game.config.width, borderUISize*2 + borderPadding*3, "specialSpaceship", 0, 50).setOrigin(0,0).play("rainbow zoom");
          
-         //scaling spaceships
 
          //animation configuration
 
@@ -123,7 +126,7 @@ class Play extends Phaser.Scene {
          let scoreConfig = {
             fontFamily : "Pixeboy",
             fontSize: "32px",
-            //backgroundColor: "#F3B141",
+            //backgroundColor: "#1b145f",
             color: "#FFFFFF",
             align: "right",
             padding: {
@@ -159,6 +162,20 @@ class Play extends Phaser.Scene {
             //fixedWidth: 100
          } 
 
+          //end information
+          let endConfig = {
+            fontFamily : "Pixeboy",
+            fontSize: "32px",
+            backgroundColor: "#1b145f",
+            color: "#FFFFFF",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            //fixedWidth: 100
+         } 
+
          //display score
          this.scoreLeft = this.add.text(100, 0, "Score: " + this.p1Score, scoreConfig);
          scoreConfig.fixedWidth = 0;
@@ -166,16 +183,30 @@ class Play extends Phaser.Scene {
         //display highscore
          this.newHighScore = this.add.text(400, 0, "High: " + highScore, highscoreConfig); 
          highscoreConfig.fixedWidth = 0;
-         this.countdownTimer = this.add.text(290, 35, this.clock, timerConfig);
-         
+         this.countdownTimer = this.add.text(game.config.width/2 - 25, 35, this.clock, timerConfig);
+
+         //sound aspects
+
+         this.gameMusic = this.sound.add("gameMusic");
+
+         var musicConfig = {
+            mute: false,
+            volume: 0.5,
+            detune: 0,
+            seek: 0,
+            loop: false,
+            delay: 0
+         }
+         this.gameMusic.play(musicConfig);
+
          //gameplay aspects
 
          //GAME OVER flag
          this.gameOver = false;
        
-         this.clock = this.time.delayedCall(60000, () => {
-            this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
-            this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
+         this.clock = this.time.delayedCall(1000, () => {
+            this.add.text(game.config.width/2, game.config.height/2 - 40, "GAME OVER", endConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 24, "Press (R) to Restart or (M) for Menu", endConfig).setOrigin(0.5);
             this.gameOver = true;
          }, null, this);
 
@@ -195,7 +226,10 @@ class Play extends Phaser.Scene {
     }
 
     update(){
+
         //object updates
+
+        //highscore updates
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
             playedOnce = true;
             if(this.gameOver && this.p1Score >= highScore){
@@ -203,9 +237,11 @@ class Play extends Phaser.Scene {
                 console.log("Highscore: ", highScore);
                 this.newHighScore.text = "Highscore: " + highScore; 
             }
+            this.gameMusic.stop()
             this.scene.restart();
         }
 
+        //timer updates
         this.countdownTimer.text = Math.floor((this.clock.getRemaining()/1000));
        
         if(!this.gameOver){
@@ -217,7 +253,9 @@ class Play extends Phaser.Scene {
         this.ship03.update();
         this.ship04.update();
         }
+
         //check collisions
+
         if(this.checkCollision(this.p1Rocket, this.ship04)){
             this.p1Rocket.reset();
             this.clock.elapsed -= 5000;
@@ -236,7 +274,8 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
-        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)){
+        if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)){
+            this.gameMusic.stop()
             this.scene.start("menuScene");
         }
     }

@@ -20,4 +20,4 @@ let highScore = 0;
 let playedOnce = false;
 
 //reserve keyboard vars
-let keyF, keyR, keyLEFT, keyRIGHT;
+let keySPACE, keyR, keyM, keyLEFT, keyRIGHT;

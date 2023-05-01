@@ -14,7 +14,7 @@ class Menu extends Phaser.Scene {
         //menu text configuration
         let menuConfig = {
             fontFamily: "Pixeboy",
-            fontSize: "40px",
+            fontSize: "32px",
             //backgroundColor: "#FFFFFF",
             color: "#FFFFFF",
             align: "right",
@@ -25,8 +25,9 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
         //show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, "ROCKECT PATROL", menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2, "Use ←→ arrows to move & F to fire", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, "ROCKET PATROL", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 - borderUISize/2 - borderPadding/2, "Use the space bar to launch your rocket and", menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, "the ←→ arrows to move in the air or pre-launch", menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = "#00FF00";
         menuConfig.color = "#000";
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Press ← for Novice or → for Expert", menuConfig).setOrigin(0.5);
