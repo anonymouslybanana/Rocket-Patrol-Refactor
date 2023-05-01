@@ -186,7 +186,7 @@ class Play extends Phaser.Scene {
 
          var musicConfig = {
             mute: false,
-            volume: 0.5,
+            volume: 0.1,
             detune: 0,
             seek: 0,
             loop: true,
@@ -206,7 +206,31 @@ class Play extends Phaser.Scene {
             this.sound.play("game_over");
          }, null, this);
 
+        //implementing start delay
+        this.clock.paused = true;
+        this.ship01.setspeed = this.ship01.moveSpeed;
+        this.ship02.setspeed = this.ship02.moveSpeed;
+        this.ship03.setspeed = this.ship03.moveSpeed;
+        this.ship04.setspeed = this.ship04.moveSpeed;
+        this.ship01.moveSpeed = 0;
+        this.ship02.moveSpeed = 0;
+        this.ship03.moveSpeed = 0;
+        this.ship04.moveSpeed = 0;
+        this.time.delayedCall(1500, () =>{
+            this.clock.paused = false;
+            this.ship01.moveSpeed = 1.5;
+            this.ship02.moveSpeed = 1.5;
+            this.ship03.moveSpeed = 1.5;
+            this.ship04.moveSpeed = 1.5;
+        });
+
         //speed increases
+        this.time.delayedCall(4000, () =>{
+            this.ship01.moveSpeed = this.ship01.setspeed;
+            this.ship02.moveSpeed = this.ship02.setspeed;
+            this.ship03.moveSpeed = this.ship03.setspeed;
+            this.ship04.moveSpeed = this.ship04.setspeed;
+        });
         this.speedIncrease1 = this.time.delayedCall(10000, () =>{
             this.ship01.moveSpeed += 0.5;
             this.ship02.moveSpeed += 0.5;
