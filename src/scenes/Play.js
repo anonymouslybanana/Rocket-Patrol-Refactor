@@ -288,19 +288,19 @@ class Play extends Phaser.Scene {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
             //play sound
-            this.sound.play("sfx_explosion"); 
+            this.sound.play("sfx_explosion" + Phaser.Math.Between(1,4)); 
         }
         if(this.checkCollision(this.p1Rocket, this.ship02)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
             //play sound
-            this.sound.play("sfx_explosion"); 
+            this.sound.play("sfx_explosion" + Phaser.Math.Between(1,4)); 
         }
         if(this.checkCollision(this.p1Rocket, this.ship01)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
             //play sound
-            this.sound.play("sfx_explosion"); 
+            this.sound.play("sfx_explosion" + Phaser.Math.Between(1,4)); 
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)){
             this.gameMusic.stop()
