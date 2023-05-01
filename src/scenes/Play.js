@@ -61,13 +61,17 @@ class Play extends Phaser.Scene {
 
         //add rocket (p1)
         this.p1Rocket = new Rocket(this, game.config.width/2, game.config.height - borderUISize - borderPadding, 'rocket').setOrigin(0.5, 0);
-         //define keys
-         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
-         keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
-         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        
+        //define keys
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyM = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.M);
+        keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
+        keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
+        //diasbling space to allow for delay
+        keySPACE.enabled = false;
+        
          //spaceship aspects
 
           //spaceship animation
@@ -216,6 +220,10 @@ class Play extends Phaser.Scene {
         this.ship02.moveSpeed = 0;
         this.ship03.moveSpeed = 0;
         this.ship04.moveSpeed = 0;
+        //enabling keys slightly before timer start
+        this.time.delayedCall(1000, () =>{
+            keySPACE.enabled = true;
+        })
         this.time.delayedCall(1500, () =>{
             this.clock.paused = false;
             this.ship01.moveSpeed = 1.5;

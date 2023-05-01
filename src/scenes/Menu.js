@@ -109,6 +109,10 @@ class Menu extends Phaser.Scene {
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+           //preventing additional selections
+           keyRIGHT.enabled = false;
+           keyLEFT.enabled = false;
+           keyC.enabled = false;
           // easy mode
           game.settings = {
             spaceshipSpeed: 3,
@@ -131,6 +135,10 @@ class Menu extends Phaser.Scene {
           });
         }
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
+          //preventing additional selections
+          keyRIGHT.enabled = false;
+          keyLEFT.enabled = false;
+          keyC.enabled = false;
           // hard mode
           game.settings = {
             spaceshipSpeed: 4,
@@ -153,6 +161,10 @@ class Menu extends Phaser.Scene {
            });
         }
         if (Phaser.Input.Keyboard.JustDown(keyC)) {
+          //preventing additional selections
+          keyRIGHT.enabled = false;
+          keyLEFT.enabled = false;
+          keyC.enabled = false;
           this.sound.play('sfx_select');
           this.scene.start('creditScene');    
         }
