@@ -22,7 +22,7 @@ class Rocket extends Phaser.GameObjects.Sprite{
             }
         } else {
             //this else case for rocket flight code was designed by Alex Groff (amgroff@ucsc.edu) and in no way is my own
-            //I am using this code will his full permission
+            //I am using this code will his full permission to do so
                 if(keyLEFT.isDown && this.x >= borderUISize + this.width) { //if left key is down then tilt the rocket left and increase the x by it's angle
                     if (this.angle >= -30) this.angle--;
                     this.x += this.moveSpeed * this.rotation * 3;
