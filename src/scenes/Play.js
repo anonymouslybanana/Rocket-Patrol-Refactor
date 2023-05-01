@@ -130,18 +130,11 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
          }  
-         //var timer = scene.time.delayedCall(5000, callback, args, scope); 
-         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
-        //display highscore
-         this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
-         scoreConfig.fixedWidth = 0;
-         
-         //gameplay aspects
-
-         //GAME OVER flag
-         this.gameOver = false;
+        
          //60-second play clock
-         let timerConfig = {
+        this.timer = 0;
+        
+        let timerConfig = {
             fontFamily : "Courier",
             fontSize: "28px",
             backgroundColor: "#F3B141",
@@ -153,7 +146,20 @@ class Play extends Phaser.Scene {
             },
             fixedWidth: 100
          } 
-         this.clock = this.time.delayedCall(10000, () => {
+
+         //var timer = scene.time.delayedCall(5000, callback, args, scope); 
+         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
+        //display highscore
+         this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
+         scoreConfig.fixedWidth = 0;
+         this.countdownTimer = this.add.text(borderUISize + borderPadding * 8, borderUISize + borderPadding * 2, this.clock, timerConfig);
+         
+         //gameplay aspects
+
+         //GAME OVER flag
+         this.gameOver = false;
+       
+         this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
             this.gameOver = true;
@@ -171,6 +177,8 @@ class Play extends Phaser.Scene {
             }
             this.scene.restart();
         }
+
+        this.countdownTimer.text = Math.floor((this.clock.getRemaining()/1000));
        
         if(!this.gameOver){
         this.starfield.tilePositionX -= 0.5;
@@ -184,6 +192,8 @@ class Play extends Phaser.Scene {
         //check collisions
         if(this.checkCollision(this.p1Rocket, this.ship04)){
             this.p1Rocket.reset();
+            this.clock.elapsed -= 5000;
+            console.log("Current Time: ", this.clock);
             this.shipExplode(this.ship04);
         }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
