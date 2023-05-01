@@ -3,7 +3,7 @@ let config = {
     width: 640,
     height: 480,
     pixelArt: true,
-    scene: [ Menu, Play ]
+    scene: [ Menu, Play, Credits ]
 }
 
 let game = new Phaser.Game(config)
@@ -20,4 +20,4 @@ let highScore = 0;
 let playedOnce = false;
 
 //reserve keyboard vars
-let keySPACE, keyR, keyM, keyLEFT, keyRIGHT;
+let keySPACE, keyR, keyM, keyC, keyLEFT, keyRIGHT;
