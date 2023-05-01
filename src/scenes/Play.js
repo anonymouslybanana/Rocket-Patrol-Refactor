@@ -71,7 +71,7 @@ class Play extends Phaser.Scene {
 
         //diasbling space to allow for delay
         keySPACE.enabled = false;
-        
+
          //spaceship aspects
 
           //spaceship animation
@@ -160,6 +160,18 @@ class Play extends Phaser.Scene {
             },
             //fixedWidth: 100
          } 
+          //controls information
+          let controlConfig = {
+            fontFamily : "Pixeboy",
+            fontSize: "22px",
+            //backgroundColor: "#1b145f",
+            color: "#FFFFFF",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+          }
 
           //end information
           let endConfig = {
@@ -183,6 +195,18 @@ class Play extends Phaser.Scene {
          this.newHighScore = this.add.text(400, 0, "High: " + highScore, highscoreConfig); 
          highscoreConfig.fixedWidth = 0;
          this.countdownTimer = this.add.text(game.config.width/2 - 25, 35, this.clock, timerConfig);
+
+         //display controls
+         this.spacedir = this.add.text(100, 450, "SPACE to launch", controlConfig);
+         this.spacedir.fixedWidth = 0;
+         this.arrowdir = this.add.text(400, 450, "← or → to move", controlConfig); 
+         this.arrowdir.fixedWidth = 0;
+
+         //make controls disappear after 15 seconds
+         this.time.delayedCall(15000, () =>{
+            this.spacedir.alpha = 0
+            this.arrowdir.alpha = 0
+         });
 
          //sound aspects
 
