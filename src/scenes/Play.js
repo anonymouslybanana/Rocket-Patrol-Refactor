@@ -132,8 +132,7 @@ class Play extends Phaser.Scene {
          }  
         
          //60-second play clock
-        this.timer = 0;
-        
+
         let timerConfig = {
             fontFamily : "Courier",
             fontSize: "28px",
@@ -152,18 +151,35 @@ class Play extends Phaser.Scene {
         //display highscore
          this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
          scoreConfig.fixedWidth = 0;
-         this.countdownTimer = this.add.text(borderUISize + borderPadding * 8, borderUISize + borderPadding * 2, this.clock, timerConfig);
+         this.countdownTimer = this.add.text(borderUISize + borderPadding * 20, borderUISize + borderPadding * 2, this.clock, timerConfig);
          
          //gameplay aspects
+
+
+         //this.speedIncrease = this.time.
 
          //GAME OVER flag
          this.gameOver = false;
        
-         this.clock = this.time.delayedCall(60000, () => {
+         this.clock = this.time.delayedCall(30000, () => {
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
             this.gameOver = true;
          }, null, this);
+
+        //speed increase counter
+        this.speedIncrease1 = this.time.delayedCall(10000, () =>{
+            this.ship01.moveSpeed += 0.5;
+            this.ship02.moveSpeed += 0.5;
+            this.ship03.moveSpeed += 0.5;
+            this.ship04.moveSpeed += 1;
+        }, null, this);
+        this.speedIncrease2 = this.time.delayedCall(20000, () =>{
+            this.ship01.moveSpeed += 1;
+            this.ship02.moveSpeed += 1;
+            this.ship03.moveSpeed += 1;
+            this.ship04.moveSpeed += 1.5;
+        }, null, this);
     }
 
     update(){
