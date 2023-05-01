@@ -3,11 +3,6 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
     preload(){
-
-        //loading music/sounds
-
-        //loading game music
-        this.load.audio("gameMusic", "./assets/IanFever&Almi-Autumn.mp3");
         
         //load images/tile sprites
 
@@ -194,7 +189,7 @@ class Play extends Phaser.Scene {
             volume: 0.5,
             detune: 0,
             seek: 0,
-            loop: false,
+            loop: true,
             delay: 0
          }
          this.gameMusic.play(musicConfig);
@@ -204,10 +199,11 @@ class Play extends Phaser.Scene {
          //GAME OVER flag
          this.gameOver = false;
        
-         this.clock = this.time.delayedCall(1000, () => {
+         this.clock = this.time.delayedCall(10000, () => {
             this.add.text(game.config.width/2, game.config.height/2 - 40, "GAME OVER", endConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 24, "Press (R) to Restart or (M) for Menu", endConfig).setOrigin(0.5);
             this.gameOver = true;
+            this.sound.play("game_over");
          }, null, this);
 
         //speed increases
@@ -261,18 +257,26 @@ class Play extends Phaser.Scene {
             this.clock.elapsed -= 5000;
             console.log("Time Updated");
             this.shipExplode(this.ship04);
+            //play sound
+            this.sound.play("sfx_rainbow"); 
         }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
+            //play sound
+            this.sound.play("sfx_explosion"); 
         }
         if(this.checkCollision(this.p1Rocket, this.ship02)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
+            //play sound
+            this.sound.play("sfx_explosion"); 
         }
         if(this.checkCollision(this.p1Rocket, this.ship01)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+            //play sound
+            this.sound.play("sfx_explosion"); 
         }
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyM)){
             this.gameMusic.stop()
@@ -303,8 +307,7 @@ class Play extends Phaser.Scene {
         //score add and repaint
         this.p1Score += ship.points;
         this.scoreLeft.text = "Score: " + this.p1Score; 
-        //play sound
-        this.sound.play("sfx_explosion");      
+             
       }
     
 
