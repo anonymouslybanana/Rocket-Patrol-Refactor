@@ -3,6 +3,7 @@ class Play extends Phaser.Scene {
         super("playScene");
     }
     preload(){
+
         //load images/tile sprites
 
         //rocket pngs
@@ -97,7 +98,7 @@ class Play extends Phaser.Scene {
 
         //special spaceship animation
 
-         //add spaceships (x3)
+         //add spaceships
          this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, "spaceship", 0, 30).setOrigin(0,0).play("zoom");
          this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5 + borderPadding*2, "spaceship", 0, 20).setOrigin(0,0).play("zoom");
          this.ship03 = new Spaceship(this, game.config.width, borderUISize*6 + borderPadding*4, "spaceship", 0, 10).setOrigin(0,0).play("zoom");
@@ -117,57 +118,68 @@ class Play extends Phaser.Scene {
 
          //initalize score
          this.p1Score = 0;
+
          //display score
          let scoreConfig = {
-            fontFamily : "Courier",
-            fontSize: "28px",
-            backgroundColor: "#F3B141",
-            color: "#843605",
+            fontFamily : "Pixeboy",
+            fontSize: "32px",
+            //backgroundColor: "#F3B141",
+            color: "#FFFFFF",
             align: "right",
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            //fixedWidth: 100
+         } 
+         let highscoreConfig = {
+            fontFamily : "Pixeboy",
+            fontSize: "32px",
+            //backgroundColor: "#F3B141",
+            color: "#FFFFFF",
+            align: "right",
+            padding: {
+                top: 5,
+                bottom: 5,
+            },
+            //fixedWidth: 100
          }  
         
-         //60-second play clock
-
+         //60-second play clock display
         let timerConfig = {
-            fontFamily : "Courier",
-            fontSize: "28px",
-            backgroundColor: "#F3B141",
-            color: "#843605",
+            fontFamily : "Pixeboy",
+            fontSize: "50px",
+            //backgroundColor: "#F3B141",
+            color: "#FFFFFF",
             align: "right",
             padding: {
                 top: 5,
                 bottom: 5,
             },
-            fixedWidth: 100
+            //fixedWidth: 100
          } 
 
-         //var timer = scene.time.delayedCall(5000, callback, args, scope); 
-         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
-        //display highscore
-         this.newHighScore = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 8, highScore, scoreConfig); 
+         //display score
+         this.scoreLeft = this.add.text(100, 0, "Score: " + this.p1Score, scoreConfig);
          scoreConfig.fixedWidth = 0;
-         this.countdownTimer = this.add.text(borderUISize + borderPadding * 20, borderUISize + borderPadding * 2, this.clock, timerConfig);
+
+        //display highscore
+         this.newHighScore = this.add.text(400, 0, "High: " + highScore, highscoreConfig); 
+         highscoreConfig.fixedWidth = 0;
+         this.countdownTimer = this.add.text(290, 35, this.clock, timerConfig);
          
          //gameplay aspects
-
-
-         //this.speedIncrease = this.time.
 
          //GAME OVER flag
          this.gameOver = false;
        
-         this.clock = this.time.delayedCall(30000, () => {
+         this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2, "GAME OVER", scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, "Press (R) to Restart or ← for Menu", scoreConfig).setOrigin(0.5);
             this.gameOver = true;
          }, null, this);
 
-        //speed increase counter
+        //speed increases
         this.speedIncrease1 = this.time.delayedCall(10000, () =>{
             this.ship01.moveSpeed += 0.5;
             this.ship02.moveSpeed += 0.5;
@@ -189,7 +201,7 @@ class Play extends Phaser.Scene {
             if(this.gameOver && this.p1Score >= highScore){
                 highScore = this.p1Score;
                 console.log("Highscore: ", highScore);
-                this.newHighScore.text = highScore; 
+                this.newHighScore.text = "Highscore: " + highScore; 
             }
             this.scene.restart();
         }
@@ -209,7 +221,7 @@ class Play extends Phaser.Scene {
         if(this.checkCollision(this.p1Rocket, this.ship04)){
             this.p1Rocket.reset();
             this.clock.elapsed -= 5000;
-            console.log("Current Time: ", this.clock);
+            console.log("Time Updated");
             this.shipExplode(this.ship04);
         }
         if(this.checkCollision(this.p1Rocket, this.ship03)) {
@@ -251,7 +263,7 @@ class Play extends Phaser.Scene {
         });
         //score add and repaint
         this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score; 
+        this.scoreLeft.text = "Score: " + this.p1Score; 
         //play sound
         this.sound.play("sfx_explosion");      
       }
