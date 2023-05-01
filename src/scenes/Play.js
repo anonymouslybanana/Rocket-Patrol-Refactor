@@ -227,7 +227,7 @@ class Play extends Phaser.Scene {
          //GAME OVER flag
          this.gameOver = false;
        
-         this.clock = this.time.delayedCall(10000, () => {
+         this.clock = this.time.delayedCall(60000, () => {
             this.add.text(game.config.width/2, game.config.height/2 - 40, "GAME OVER", endConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 24, "Press (R) to Restart or (M) for Menu", endConfig).setOrigin(0.5);
             this.gameOver = true;
