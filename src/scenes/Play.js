@@ -10,6 +10,7 @@ class Play extends Phaser.Scene {
         this.load.image("rocket", "./assets/rocket.png");
 
         //spaceship pngs
+        this.load.atlas("spaceship", "./assets/spaceship_animation.png", "./assets/spaceship_animation.json")
         this.load.image("spaceship1", "./assets/spaceship1.png");
         this.load.image("spaceship2", "./assets/spaceship2.png");
         this.load.image("spaceship3", "./assets/spaceship3.png");
@@ -75,13 +76,15 @@ class Play extends Phaser.Scene {
          //spaceship aspects
 
           //spaceship animation
+          this.framenames = this.textures.get("spaceship").getFrameNames();
+
           this.anims.create({
             key: 'zoom',
             frames: [
-                { key: 'spaceship1' },
-                { key: 'spaceship2' },
-                { key: 'spaceship3' },
-                { key: 'spaceship4' }
+                { key: 'spaceship', frame: "spaceship1.png" },
+                { key: 'spaceship', frame: "spaceship2.png" },
+                { key: 'spaceship', frame: "spaceship3.png" },
+                { key: 'spaceship', frame: "spaceship4.png" }
             ],
             frameRate: 8,
             repeat: -1

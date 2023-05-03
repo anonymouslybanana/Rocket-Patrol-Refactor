@@ -17,6 +17,7 @@
 //     - Implement a New Timing/Scoring Mechanism that Adds Time (The new enemy spaceship adds 5 seconds to the game clock) (15)
 //     Total: 105 points
 //
+//I used https://www.youtube.com/watch?v=ffemDAdJySU for texture atlases
 
 let config = {
     type: Phaser.CANVAS,
